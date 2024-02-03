@@ -1,6 +1,6 @@
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import OpenAI from 'openai';
-import { HTTP_PROXY_URL, OPENAI_API_KEY } from './constants';
+import { HTTP_PROXY_URL, OPENAI_API_KEY } from '../constants';
 
 const httpsProxyAgent = new HttpsProxyAgent(HTTP_PROXY_URL!);
 

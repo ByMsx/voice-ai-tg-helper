@@ -3,6 +3,7 @@
   "description": "Telegram Bot which listens your voice and sends you a voice response from YandexGPT",
   "license": "UNLICENSED",
   "dependencies": {
+    "@grammyjs/storage-free": "^2.4.1",
     "@types/node": "^20.11.16",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.20.0",

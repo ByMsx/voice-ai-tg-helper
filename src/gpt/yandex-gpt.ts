@@ -1,4 +1,4 @@
-import { YANDEX_API_KEY, YANDEX_FOLDER_ID } from './constants';
+import { YANDEX_API_KEY, YANDEX_FOLDER_ID } from '../constants';
 
 export async function askAi(text: string, role: string): Promise<string> {
   const response = await fetch('https://llm.api.cloud.yandex.net/foundationModels/v1/completion', {
@@ -13,7 +13,7 @@ export async function askAi(text: string, role: string): Promise<string> {
       completionOptions: {
         stream: false,
         temperature: 0.1,
-        maxTokens: '1000',
+        maxTokens: '100',
       },
       messages: [
         {

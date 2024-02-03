@@ -46,6 +46,13 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
 
+"@grammyjs/storage-free@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@grammyjs/storage-free/-/storage-free-2.4.1.tgz#431a8cca26d0212ceff7d47e7192a9e0aa6abda2"
+  integrity sha512-0P485meISWnNWsDCQM0zLXMg9Y5BPLXgZsdDd1W++lbgqMoXc4r/k9HLK+bG/sE8hyJGl3LIDru9W1lpriixMw==
+  dependencies:
+    node-fetch "^2.6.6"
+
 "@grammyjs/types@^3.4.6":
   version "3.4.6"
   resolved "https://registry.yarnpkg.com/@grammyjs/types/-/types-3.4.6.tgz#a79a97695b7c96fb84a0113c75495a1e3c9589b8"
@@ -1023,7 +1030,7 @@ node-domexception@1.0.0:
   resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
-node-fetch@^2.6.7, node-fetch@^2.7.0:
+node-fetch@^2.6.6, node-fetch@^2.6.7, node-fetch@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==

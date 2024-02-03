@@ -16,4 +16,4 @@ EXPOSE 3000
 VOLUME /usr/src/app/data
 
 # NPM doesn't pass SIGTERM from OS, using direct launch
-CMD [ "node", "dist/app.js" ]
+CMD [ "node", "dist/main.js" ]
