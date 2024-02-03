@@ -1,0 +1,6 @@
+node_modules
+dist
+.idea
+data
+.env
+credentials.json
