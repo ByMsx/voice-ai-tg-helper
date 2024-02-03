@@ -3,9 +3,7 @@ import { speech2text, text2speech } from 'yandex-speech-promise';
 import { generateUpdateMiddleware } from 'telegraf-middleware-console-time';
 import { askAi } from './yandex-gpt';
 import removeMarkdown from 'remove-markdown';
-import { BOT_TOKEN, YANDEX_API_KEY } from './constants';
-
-const AI_ROLE = 'Ты профессиональный секретарь. В ответе не используй форматирование.';
+import { BOT_TOKEN, YANDEX_API_KEY, AI_ROLE } from './constants';
 
 async function handleNewVoiceMessage(url: string) {
   const response = await fetch(url);
@@ -15,7 +13,7 @@ async function handleNewVoiceMessage(url: string) {
     auth: `Api-Key ${YANDEX_API_KEY}`,
   });
 
-  return askAi(text, AI_ROLE);
+  return askAi(text, AI_ROLE!);
 }
 
 function createBot(token: string) {
