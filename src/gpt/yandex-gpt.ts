@@ -5,7 +5,37 @@ import {
   YANDEX_TEMPERATURE,
 } from '../constants';
 
-export async function askAi(text: string, role: string): Promise<string> {
+export interface AiMessage {
+  role: 'system' | 'user' | 'assistant';
+  text: string;
+}
+
+export type AiChatContext = AiMessage[];
+
+export async function askAi(
+  text: string,
+  arg: string | AiChatContext,
+): Promise<{
+  response: string;
+  context: AiChatContext;
+}> {
+  const context =
+    typeof arg === 'string'
+      ? [
+          {
+            role: 'system',
+            text: arg,
+          },
+        ]
+      : arg;
+
+  const userMessage = {
+    role: 'user',
+    text,
+  };
+
+  const messages = [...context, userMessage];
+
   const response = await fetch('https://llm.api.cloud.yandex.net/foundationModels/v1/completion', {
     method: 'POST',
     headers: {
@@ -20,19 +50,15 @@ export async function askAi(text: string, role: string): Promise<string> {
         temperature: YANDEX_TEMPERATURE,
         maxTokens: YANDEX_MAX_TOKENS,
       },
-      messages: [
-        {
-          role: 'system',
-          text: role,
-        },
-        {
-          role: 'user',
-          text,
-        },
-      ],
+      messages,
     }),
   });
 
   const json = await response.json();
-  return json.result.alternatives[0].message.text;
+  const { message } = json.result.alternatives[0];
+
+  return {
+    response: message.text,
+    context: [...messages, message],
+  };
 }

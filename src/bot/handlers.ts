@@ -1,7 +1,7 @@
-import { MyContext, ResponseMode } from '../types';
+import { AiMode, MyContext, ReplyMode } from '../types';
 import { Filter, InputFile, NextFunction } from 'grammy';
 import { speech2text, text2speech } from 'yandex-speech-promise';
-import { AI_ROLE, REPLY_MODE, YANDEX_API_KEY } from '../constants';
+import { AI_MODE, AI_ROLE, REPLY_MODE, YANDEX_API_KEY } from '../constants';
 import { askAi } from '../gpt/yandex-gpt';
 import removeMarkdown from 'remove-markdown';
 
@@ -27,12 +27,21 @@ export function pickText(ctx: Filter<MyContext, 'message'>, next: NextFunction) 
 export async function handleMessage(ctx: Filter<MyContext, 'message'>, next: NextFunction) {
   if (!ctx.text) return;
 
-  const responseText = await askAi(ctx.text, AI_ROLE!);
+  let roleOrContext;
+  if (AI_MODE === AiMode.CHAT && ctx.session.aiContext && ctx.session.aiContext.length > 0) {
+    roleOrContext = ctx.session.aiContext;
+  } else {
+    roleOrContext = AI_ROLE!;
+  }
+
+  const { response: responseText, context } = await askAi(ctx.text, roleOrContext);
+  ctx.session.aiContext = context;
+
   if (!responseText) return;
 
   if (
-    REPLY_MODE === ResponseMode.VOICE ||
-    (REPLY_MODE === ResponseMode.VOICE_TO_VOICE && !!ctx.msg.voice)
+    REPLY_MODE === ReplyMode.VOICE ||
+    (REPLY_MODE === ReplyMode.VOICE_TO_VOICE && !!ctx.msg.voice)
   ) {
     const buffer = await text2speech(removeMarkdown(responseText), {
       auth: `Api-Key ${YANDEX_API_KEY}`,
@@ -46,6 +55,11 @@ export async function handleMessage(ctx: Filter<MyContext, 'message'>, next: Nex
     await ctx.reply(responseText, { parse_mode: 'Markdown' });
   }
 
+  return next();
+}
+
+export function resetContext(ctx: MyContext, next: NextFunction) {
+  ctx.session.aiContext = undefined;
   return next();
 }
 

@@ -3,7 +3,13 @@ import { Bot, session } from 'grammy';
 import { generateUpdateMiddleware } from 'telegraf-middleware-console-time';
 import { checkLimit, decreaseLimit } from './limits';
 import { freeStorage } from '@grammyjs/storage-free';
-import { handleMessage, pickText, recognizeVoiceMiddleware, sendWelcomeMessage } from './handlers';
+import {
+  handleMessage,
+  pickText,
+  recognizeVoiceMiddleware,
+  resetContext,
+  sendWelcomeMessage,
+} from './handlers';
 
 export default function createBot(token: string) {
   const bot = new Bot<MyContext>(token);
@@ -18,7 +24,7 @@ export default function createBot(token: string) {
     }),
   );
 
-  bot.command('start', sendWelcomeMessage);
+  bot.command('start', resetContext, sendWelcomeMessage);
   bot.on(
     'message:voice',
     checkLimit,
