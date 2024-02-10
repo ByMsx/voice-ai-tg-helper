@@ -1,5 +1,5 @@
 import { AiMode, MyContext, ReplyMode } from '../types';
-import { Filter, InputFile, NextFunction } from 'grammy';
+import { Filter, GrammyError, InputFile, NextFunction } from 'grammy';
 import { speech2text, text2speech } from 'yandex-speech-promise';
 import { AI_MODE, AI_ROLE, REPLY_MODE, YANDEX_API_KEY } from '../constants';
 import { askAi } from '../gpt/yandex-gpt';
@@ -52,7 +52,15 @@ export async function handleMessage(ctx: Filter<MyContext, 'message'>, next: Nex
 
     await ctx.replyWithVoice(new InputFile(buffer));
   } else {
-    await ctx.reply(responseText, { parse_mode: 'Markdown' });
+    try {
+      await ctx.reply(responseText, { parse_mode: 'Markdown' });
+    } catch (e) {
+      if (e instanceof GrammyError && e.description.indexOf("can't parse entities")) {
+        await ctx.reply(removeMarkdown(responseText));
+      } else {
+        throw e;
+      }
+    }
   }
 
   return next();
