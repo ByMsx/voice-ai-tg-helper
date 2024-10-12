@@ -3,6 +3,7 @@ import {
   YANDEX_FOLDER_ID,
   YANDEX_MAX_TOKENS,
   YANDEX_TEMPERATURE,
+  YANDEX_MODEL,
 } from '../constants';
 
 export interface AiMessage {
@@ -44,7 +45,7 @@ export async function askAi(
       'x-folder-id': YANDEX_FOLDER_ID!,
     },
     body: JSON.stringify({
-      modelUri: `gpt://${YANDEX_FOLDER_ID}/yandexgpt-lite`,
+      modelUri: `gpt://${YANDEX_FOLDER_ID}/${YANDEX_MODEL}`,
       completionOptions: {
         stream: false,
         temperature: YANDEX_TEMPERATURE,

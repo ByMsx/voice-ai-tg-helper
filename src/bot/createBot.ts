@@ -10,6 +10,7 @@ import {
   resetContext,
   sendWelcomeMessage,
 } from './handlers';
+import { DISABLE_LIMITS } from '../constants';
 
 export default function createBot(token: string) {
   const bot = new Bot<MyContext>(token);
@@ -25,14 +26,22 @@ export default function createBot(token: string) {
   );
 
   bot.command('start', resetContext, sendWelcomeMessage);
+
   bot.on(
     'message:voice',
-    checkLimit,
+    ...(DISABLE_LIMITS ? [] : [checkLimit]),
     recognizeVoiceMiddleware(token),
     handleMessage,
-    decreaseLimit,
+    ...(DISABLE_LIMITS ? [] : [decreaseLimit]),
   );
-  bot.on('message', checkLimit, pickText, handleMessage, decreaseLimit);
+
+  bot.on(
+    'message',
+    ...(DISABLE_LIMITS ? [] : [checkLimit]),
+    pickText,
+    handleMessage,
+    ...(DISABLE_LIMITS ? [] : [decreaseLimit]),
+  );
 
   return bot;
 }
