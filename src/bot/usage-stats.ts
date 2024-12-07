@@ -55,7 +55,7 @@ export async function printStats(ctx: MyContext, _next: NextFunction) {
 
   const rows = users.map(
     user =>
-      `<a href="tg://user?id=${user.id}">${user.firstName}</a>: ${user.requestsCount} - последний ${dayjs(user.updatedAt).format('DD.MM.YYYY')}`,
+      `<a href="tg://user?id=${user.telegramUserId}">${user.firstName}</a>: ${user.requestsCount} - последний ${dayjs(user.updatedAt).format('DD.MM.YYYY')}`,
   );
 
   const header = `📊 <b>Статистика использования</b>\n\nВсего пользователей: <b>${rows.length}</b>\n\n`;
