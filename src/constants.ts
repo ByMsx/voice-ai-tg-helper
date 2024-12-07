@@ -10,6 +10,7 @@ export const {
   BOT_TOKEN,
   HTTP_PROXY_URL,
   AI_ROLE,
+  SQLITE_PATH = 'data/sqlite.db',
   YANDEX_MODEL = 'yandexgpt-lite',
 } = process.env;
 

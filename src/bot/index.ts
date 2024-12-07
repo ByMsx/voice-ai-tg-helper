@@ -1,3 +1,3 @@
-import createBot from './createBot';
+import createBot from './create-bot';
 
 export { createBot };

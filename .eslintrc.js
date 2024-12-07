@@ -19,7 +19,7 @@ module.exports = {
   ],
   "rules": {
     "no-unused-vars": 0,
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-non-null-assertion": 0,
     "prettier/prettier": ["error", { singleQuote: true }, { usePrettierrc: true }]
   }

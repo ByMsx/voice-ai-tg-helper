@@ -2,7 +2,6 @@ import { MyContext, SessionData } from '../types';
 import { Bot, session } from 'grammy';
 import { generateUpdateMiddleware } from 'telegraf-middleware-console-time';
 import { checkLimit, decreaseLimit } from './limits';
-import { freeStorage } from '@grammyjs/storage-free';
 import {
   handleMessage,
   pickText,
@@ -11,6 +10,8 @@ import {
   sendWelcomeMessage,
 } from './handlers';
 import { DISABLE_LIMITS } from '../constants';
+import { freeStorage } from '@grammyjs/storage-free';
+import { printStats, saveUserRequest, userStartedBot } from './usage-stats';
 
 export default function createBot(token: string) {
   const bot = new Bot<MyContext>(token);
@@ -21,11 +22,13 @@ export default function createBot(token: string) {
       initial: () => ({
         requestsLeft: 5,
       }),
+      // todo: TypeOrm Storage
       storage: freeStorage<SessionData>(token),
     }),
   );
 
-  bot.command('start', resetContext, sendWelcomeMessage);
+  bot.command('start', resetContext, userStartedBot, sendWelcomeMessage);
+  bot.command('stats', printStats);
 
   bot.on(
     'message:voice',
@@ -33,6 +36,7 @@ export default function createBot(token: string) {
     recognizeVoiceMiddleware(token),
     handleMessage,
     ...(DISABLE_LIMITS ? [] : [decreaseLimit]),
+    saveUserRequest,
   );
 
   bot.on(
@@ -41,6 +45,7 @@ export default function createBot(token: string) {
     pickText,
     handleMessage,
     ...(DISABLE_LIMITS ? [] : [decreaseLimit]),
+    saveUserRequest,
   );
 
   return bot;
