@@ -12,6 +12,7 @@ import {
 import { DISABLE_LIMITS } from '../constants';
 import { freeStorage } from '@grammyjs/storage-free';
 import { printStats, saveUserRequest, userStartedBot } from './usage-stats';
+import { isAdmin } from './helpers/is-admin';
 
 export default function createBot(token: string) {
   const bot = new Bot<MyContext>(token);
@@ -28,7 +29,7 @@ export default function createBot(token: string) {
   );
 
   bot.command('start', resetContext, userStartedBot, sendWelcomeMessage);
-  bot.command('stats', printStats);
+  bot.command('stats', isAdmin, printStats);
 
   bot.on(
     'message:voice',

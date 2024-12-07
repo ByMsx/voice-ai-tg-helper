@@ -21,3 +21,5 @@ export const AI_MODE = (process.env.AI_MODE as AiMode) || AiMode.PROMPT;
 export const DISABLE_LIMITS =
   process.env.DISABLE_LIMITS === 'true' || process.env.DISABLE_LIMITS === '1';
 export const UNLIMITED_USER_IDS = process.env.UNLIMITED_USER_IDS?.split(',').map(v => +v) || [];
+
+export const ADMINS_IDS = process.env.ADMINS_IDS?.split(',').map(v => +v) || [];

@@ -58,7 +58,7 @@ export async function printStats(ctx: MyContext, _next: NextFunction) {
       `<a href="tg://user?id=${user.id}">${user.firstName}</a>: ${user.requestsCount} - последний ${dayjs(user.updatedAt).format('DD.MM.YYYY')}`,
   );
 
-  const header = '📊 <b>Статистика использования</b>\n\nВсего пользователей: <b>${rows.length}</b>';
+  const header = `📊 <b>Статистика использования</b>\n\nВсего пользователей: <b>${rows.length}</b>\n\n`;
 
   let start = 0;
   let array: string[];
